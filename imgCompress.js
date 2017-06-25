@@ -11,3 +11,36 @@
  * options = {
     };
  */
+
+
+        (function (window) {
+            var ImgCompress = function (element, options) {
+                try {
+                    if (element === undefined || element === null) {
+                        throw new Error("dom is undefined");
+                        return;
+                    }
+
+                }
+                catch (err){
+                    console.log(err);
+                }
+                this.options = options;
+                this._this = this;
+                this.init(element);
+            };
+
+            var imgCompress = ImgCompress.prototype;
+
+            imgCompress.init = function (element) {
+                this.eventChange(element);
+            };
+
+            imgCompress.eventChange = function (element) {
+                element.onchange = function (e) {
+                    console.log(e);
+                }
+            };
+
+            window.ImgCompress = ImgCompress;
+        })(window);
