@@ -53,12 +53,12 @@
                     _this.dataBack.byteSize = byteSize;
                     _this.dataBack.lastname = lastname;
                     console.log(_this.dataBack);
-                    if (params.isCompress){
-                        _this.imgCompressHandle(files, _this.params.callback);
-                    }else {
-                        _this.validateFileReader(files);
-                        params.callbackFn();
-                    }
+                    var base64 = _this.validateFileReader(files);
+                    // if (params.isCompress){
+                    //     _this.imgCompressHandle(base64, _this.params.callbackFn);
+                    // }else {
+                    //     params.callbackFn(_this.dataBack);
+                    // }
                 }
             };
 
@@ -67,7 +67,7 @@
                 var _this = this;
                 var size = _this.dataBack.byteSize;
                 var params = this.params;
-                var type = params.type || file.type;
+                var type = params.type || _this.dataBack.files.type;
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
                 var ObjectURL = null;
@@ -93,7 +93,6 @@
                     } else {
                         dataURL = canvas.toDataURL(type);
                     }
-                    dataURL = canvas.toDataURL(type);
                     _this.dataBack.dataURL = dataURL;
                     callback(_this.dataBack);
                     img = null;
@@ -111,13 +110,22 @@
                     reader.readAsDataURL(files);
                     reader.onload = function(e) {
                         base64 = e.target.result;
-                        _this.imgCompressHandle(base64)
+                        _this.dataBack.base64 = base64;
+                        _this.isCompressFn(base64);
                     };
                 } else {
                     ObjectURL = URL.createObjectURL(file);
                     _this.imgCompressHandle(ObjectURL);
                 }
-                this.dataBack.base64 = base64;
+            };
+
+            imgCompress.isCompressFn = function (base64) {
+                var params = this.params;
+                if (params.isCompress){
+                    this.imgCompressHandle(base64, this.params.callbackFn);
+                }else {
+                    params.callbackFn(this.dataBack);
+                }
             };
 
             //dom判断
