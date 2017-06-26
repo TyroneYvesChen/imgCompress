@@ -25,6 +25,7 @@
             imgCompress.init = function (element) {
                     this.eventChange(element);
             };
+
             //默认参数
             imgCompress.defaults = {
                 isCompress: false,
@@ -34,6 +35,9 @@
                 w_scale: 640,
                 callbackFn: function () {}
             };
+
+            imgCompress.dataBack = {};
+
             //input的chang事件
             imgCompress.eventChange = function (element) {
                 var _this = this,
@@ -44,8 +48,11 @@
                     var filename = e.currentTarget.files[0].name;		//文件名
                     var byteSize = e.currentTarget.files[0].size;		//文件大小
                     var lastname = filename.substring(filename.lastIndexOf(".") + 1, filename.length);
-                    console.log(files);
-                    console.log(element.files[0]);
+                    _this.dataBack.files = files;
+                    _this.dataBack.filename = filename;
+                    _this.dataBack.byteSize = byteSize;
+                    _this.dataBack.lastname = lastname;
+                    console.log(_this.dataBack);
                     if (params.isCompress){
                         _this.imgCompressHandle(files);
                     }else {
@@ -135,7 +142,7 @@
                 var params = {},
                     options = options || {},
                     defaults = this.defaults;
-                console.log(options);
+                // console.log(options);
                 for (var key in defaults) {
                     params[key] = defaults[key];
                 }
