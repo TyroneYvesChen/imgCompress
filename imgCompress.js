@@ -54,7 +54,7 @@
                     _this.dataBack.lastname = lastname;
                     console.log(_this.dataBack);
                     if (params.isCompress){
-                        _this.imgCompressHandle(files);
+                        _this.imgCompressHandle(files, _this.params.callback);
                     }else {
                         _this.validateFileReader(files);
                         params.callbackFn();
@@ -63,8 +63,9 @@
             };
 
             //图片压缩
-            imgCompress.imgCompressHandle = function (files, callback) {
-                var size = file.size;
+            imgCompress.imgCompressHandle = function (base64, callback) {
+                var _this = this;
+                var size = _this.dataBack.byteSize;
                 var params = this.params;
                 var type = params.type || file.type;
                 var canvas = document.createElement('canvas');
@@ -92,8 +93,9 @@
                     } else {
                         dataURL = canvas.toDataURL(type);
                     }
-
-                    callback(dataURL);
+                    dataURL = canvas.toDataURL(type);
+                    _this.dataBack.dataURL = dataURL;
+                    callback(_this.dataBack);
                     img = null;
                     ObjectURL && URL.revokeObjectURL(ObjectURL);
                 };
@@ -115,7 +117,7 @@
                     ObjectURL = URL.createObjectURL(file);
                     _this.imgCompressHandle(ObjectURL);
                 }
-                return base64;
+                this.dataBack.base64 = base64;
             };
 
             //dom判断

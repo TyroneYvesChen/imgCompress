@@ -18,7 +18,9 @@
             onSize: 500,//大于500kb启动压缩(可选)
             w_scale: 640,//宽度大于640px进行裁剪(可选)
             type: "image/jpeg",//文件类型(默认根据文件判断，可选)
-            callback: function () {}//回调方法,包含一个参数base64(文件的base64编码字符串，可选)
+            callback: function (data) {
+                console.log(data);
+            }//回调方法,包含一个参数base64(文件的base64编码字符串，可选)
         };
         new ImgCompress(input, options);
     </script>
