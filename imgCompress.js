@@ -15,8 +15,8 @@
 
         (function (window) {
             var ImgCompress = function (element, options) {
-                this.validateElement(element);
-                this.options = options;
+                if (!this.validateElement(element)) return;
+                this.optionsHandle(options);
                 this._this = this;
                 this.init(element);
             };
@@ -24,27 +24,55 @@
             var imgCompress = ImgCompress.prototype;
 
             imgCompress.init = function (element) {
-                this.eventChange(element);
+                    this.eventChange(element);
             };
 
-            imgCompress.validateElement = function (element) {
-                try {
-                    if (element === undefined || element === null) {
-                        throw new Error("element is not found");
-                    }
-                    if (typeof element !== 'object') {
-                        throw new Error("element is not dom");
-                    }
-                }
-                catch (err){
-                    console.log(err);
+            imgCompress.defaults = {
+                isCompress: false,
+                sizeConstrained: 10240,
+                scale: 0.6,
+                onSize: 500,
+                w_scale: 640,
+                callback: function () {}
+            };
+
+            imgCompress.eventChange = function (element) {
+                element.onchange = function (e) {
+                    console.log(e);
+                    var files = element.files[0];
+                    console.log(files);
                 }
             };
 
-            imgCompress.validateFileReader = function () {
+            imgCompress.optionsHandle = function (options) {
+                var params = {},
+                    options = options || {},
+                    defaults = this.defaults;
+                console.log(options);
+                for (var key in defaults) {
+                    params[key] = defaults[key];
+                }
+
+                if (typeof options === 'function') {
+                    params.callback = options;
+                } else {
+                    for (var o in options) {
+                        if (options.hasOwnProperty(o)) {
+                            params[o] = options[o];
+                        }
+                    }
+                }
+                this.params = params;
+            };
+
+            imgCompress.imgCompressHandle = function () {
+
+            };
+
+            imgCompress.validateFileReader = function (files) {
                 if (FileReader) {
                     var reader = new FileReader();
-                    reader.readAsDataURL(file);
+                    reader.readAsDataURL(files);
                     reader.onload = function(e) {
                         var base64 = e.target.result;
                         handle(base64)
@@ -55,12 +83,22 @@
                 }
             };
 
-            imgCompress.eventChange = function (element) {
-                element.onchange = function (e) {
-                    console.log(e);
-                    var files = element.files[0];
-                    console.log(files);
+            imgCompress.validateElement = function (element) {
+                var boolean = true;
+                try {
+                    if (element === undefined || element === null) {
+                        boolean = false;
+                        throw new Error("element is not found");
+                    }
+                    if (typeof element !== 'object') {
+                        boolean = false;
+                        throw new Error("element is not dom");
+                    }
                 }
+                catch (err){
+                    console.log(err);
+                }
+                return boolean;
             };
 
             window.ImgCompress = ImgCompress;
