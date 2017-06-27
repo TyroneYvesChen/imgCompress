@@ -8,6 +8,7 @@
 </head>
 <input type="file" id="file">
 <img src="" alt="">
+<img src="" id="img2">
 <body>
     <script type="text/javascript" src="imgCompress.js"></script>
     <script>
@@ -22,7 +23,8 @@
             callbackFn: function (data) {
                 //回调方法,包含一个参数base64(文件的base64编码字符串，可选)
                 console.log(data);
-                document.querySelector("img").src = data.dataURL
+                document.querySelector("img").src = data.dataURL;
+                document.querySelector("#img2").src = data.base64
             }
         };
         new ImgCompress(input, options);
