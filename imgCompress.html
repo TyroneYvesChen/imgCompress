@@ -21,10 +21,10 @@
             w_scale: 640,//宽度大于640px进行裁剪(可选)
             type: "image/jpeg",//文件类型(默认根据文件判断，可选)
             callbackFn: function (data) {
-                //回调方法,包含一个参数base64(文件的base64编码字符串，可选)
+                //回调方法,包含一个参数,包含文件的一些详情(可选)
                 console.log(data);
-                document.querySelector("img").src = data.dataURL;
-                document.querySelector("#img2").src = data.base64
+                document.querySelector("img").src = data.dataURL;       //压缩后
+                document.querySelector("#img2").src = data.base64;       //压缩前
             }
         };
         new ImgCompress(input, options);

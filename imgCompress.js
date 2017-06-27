@@ -31,7 +31,7 @@
                 isCompress: false,
                 sizeConstrained: 10240,
                 scale: 0.6,
-                onSize: 500,
+                onSize: 0,
                 w_scale: 640,
                 callbackFn: function () {}
             };
@@ -43,7 +43,6 @@
                 var _this = this,
                     params = _this.params;
                 element.onchange = function (e) {
-                    console.log(e);
                     var files = e.currentTarget.files[0];              //传入文件详情
                     var filename = e.currentTarget.files[0].name;		//文件名
                     var byteSize = e.currentTarget.files[0].size;		//文件大小
@@ -52,13 +51,7 @@
                     _this.dataBack.filename = filename;
                     _this.dataBack.byteSize = byteSize;
                     _this.dataBack.lastname = lastname;
-                    console.log(_this.dataBack);
                     var base64 = _this.validateFileReader(files);
-                    // if (params.isCompress){
-                    //     _this.imgCompressHandle(base64, _this.params.callbackFn);
-                    // }else {
-                    //     params.callbackFn(_this.dataBack);
-                    // }
                 }
             };
 
