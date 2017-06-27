@@ -20,7 +20,15 @@
 
 以下默认配置
 ``` options
-
+        options = {
+            isCompress: true,            //是否开启压缩
+            sizeConstrained: 10240,//限制压缩大小(单位kb，可选)
+            scale: 0.1,//压缩比例(范围0~1，可选)
+            onSize: 500,//大于500kb启动压缩(可选)
+            w_scale: 640,//宽度大于640px进行裁剪(可选)
+            type: "image/jpeg",//文件类型(默认根据文件判断，可选)
+            callbackFn: function (data) {}
+        };
 ```
 如果option是方法，赋值给options的callback方法
 
